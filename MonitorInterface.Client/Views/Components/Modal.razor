@@ -1,0 +1,23 @@
+﻿<div class="bm-container @(IsVisible ? "bm-active" : string.Empty)">
+
+    <div class="bm-overlay" @onclick="HandleBackgroundClick"></div>
+
+    <div class="blazor-modal">
+        <div class="bm-header">
+            <h3 class="bm-title">@Title</h3>
+            @if (!ComponentHideCloseButton)
+            {
+                <button type="button" class="bm-close" @onclick="@(() => ModalService.Cancel())">
+                    <span>&times;</span>
+                </button>
+            }
+        </div>
+        <div class="bm-content">
+            <CascadingValue Value="this">
+                <CascadingValue Value="@Parameters">
+                    @Content
+                </CascadingValue>
+            </CascadingValue>
+        </div>
+    </div>
+</div>

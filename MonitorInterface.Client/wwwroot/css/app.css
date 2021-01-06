@@ -1,0 +1,765 @@
+﻿@import url('open-iconic/font/css/open-iconic-bootstrap.min.css');
+
+html, body {
+    font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
+    background-color: lightslategray;
+    font-size: 1vw;
+    background-attachment: fixed;
+}
+
+
+
+a, .btn-link {
+    color: #0366d6;
+}
+
+app {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+}
+
+.top-row {
+    height: 3.5rem;
+    display: flex;
+    align-items: center;
+}
+
+.main {
+    flex: 1;
+}
+
+    .main .top-row {
+        background-color: #f7f7f7;
+        border-bottom: 1px solid #d6d5d5;
+        justify-content: flex-end;
+    }
+
+        .main .top-row > a, .main .top-row .btn-link {
+            white-space: nowrap;
+            margin-left: 1.5rem;
+        }
+
+        .main .top-row a:first-child {
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+.sidebar {
+    background-image: linear-gradient(180deg, rgb(5, 39, 103) 0%, #3a0647 70%);
+}
+
+    .sidebar .top-row {
+        background-color: rgba(0,0,0,0.4);
+    }
+
+    .sidebar .navbar-brand {
+        font-size: 1.1rem;
+    }
+
+    .sidebar .oi {
+        width: 2rem;
+        font-size: 1.1rem;
+        vertical-align: text-top;
+        top: -2px;
+    }
+
+    .sidebar .nav-item {
+        font-size: 0.9rem;
+        padding-bottom: 0.5rem;
+    }
+
+        .sidebar .nav-item:first-of-type {
+            padding-top: 1rem;
+        }
+
+        .sidebar .nav-item:last-of-type {
+            padding-bottom: 1rem;
+        }
+
+        .sidebar .nav-item a {
+            color: #d7d7d7;
+            border-radius: 4px;
+            height: 3rem;
+            display: flex;
+            align-items: center;
+            line-height: 3rem;
+        }
+
+            .sidebar .nav-item a.active {
+                background-color: rgba(255,255,255,0.25);
+                color: white;
+            }
+
+            .sidebar .nav-item a:hover {
+                background-color: rgba(255,255,255,0.1);
+                color: white;
+            }
+
+.content {
+    padding-top: 1.1rem;
+}
+
+.navbar-toggler {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.valid.modified:not([type=checkbox]) {
+    outline: 1px solid #26b050;
+}
+
+.invalid {
+    outline: 1px solid red;
+}
+
+.validation-message {
+    color: red;
+}
+
+#blazor-error-ui {
+    background: lightyellow;
+    bottom: 0;
+    box-shadow: 0 -1px 2px rgba(0, 0, 0, 0.2);
+    display: none;
+    left: 0;
+    padding: 0.6rem 1.25rem 0.7rem 1.25rem;
+    position: fixed;
+    width: 100%;
+    z-index: 1000;
+}
+
+    #blazor-error-ui .dismiss {
+        cursor: pointer;
+        position: absolute;
+        right: 0.75rem;
+        top: 0.5rem;
+    }
+
+@media (max-width: 767.98px) {
+    .main .top-row:not(.auth) {
+        display: none;
+    }
+
+    .main .top-row.auth {
+        justify-content: space-between;
+    }
+
+    .main .top-row a, .main .top-row .btn-link {
+        margin-left: 0;
+    }
+}
+
+@media (min-width: 768px) {
+    app {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        width: 250px;
+        height: 100vh;
+        position: sticky;
+        top: 0;
+    }
+
+    .main .top-row {
+        position: sticky;
+        top: 0;
+    }
+
+    .main > div {
+        padding-left: 2rem !important;
+        padding-right: 1.5rem !important;
+    }
+
+    .navbar-toggler {
+        display: none;
+    }
+
+    .sidebar .collapse {
+        /* Never collapse the sidebar for wide screens */
+        display: block;
+    }
+}
+
+ul {
+    list-style: none;
+    margin-bottom: 0;
+}
+
+label {
+    margin-bottom: 0;
+}
+
+.indexLabel {
+    color: #ecf2f9;
+    text-shadow: 1px 1px black;
+}
+
+/*    Job Dropdown/Title Section    */
+
+#jobSelect {
+    margin-right: 15px;
+    width: 35%;
+    float: left;
+}
+
+.jobCreateForm {
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #ecf2f9;
+    padding: 3% 2% 3% 3%;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 3px 10px 10px 0 rgba(32, 33, 36, .75);
+    align-items: center;
+}
+
+.currentJobList {
+    display: flex;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #ecf2f9;
+    padding: 3% 2% 3% 3%;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 3px 10px 10px 0 rgba(32, 33, 36, .75);
+    width: 100%;
+    align-items: center;
+    height: calc(1.5em + 0.75rem + 2px);
+}
+
+.currentJob {
+    background-color: #ecf2f9;
+    padding: 5% 2% 5% 5%;
+    width: 100%;
+    height: calc(1.5em + 0.75rem + 2px);
+    display: flex;
+    align-items: center;
+    margin-bottom: 2%;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 3px 5px 5px 0 rgba(32, 33, 36, .75);
+}
+
+.jobNameTitle {
+    background-color: white;
+    margin-bottom: 0;
+    padding-left: 2%;
+    padding-right: 2%;
+    float: left;
+    outline-style: solid;
+    outline-width: thin;
+    outline-color: black;
+}
+
+#jobCreate {
+    margin-right: 25px;
+    padding-right: 30em;
+    float: left;
+}
+
+.btn-primary {
+    color: #fff;
+    background-color: #1b6ec2;
+    margin-right: 10px;
+    border: 1px solid black;
+    float: left;
+}
+
+.btn.disabled, .btn:disabled {
+    background-color: gray;
+    border-color: gray;
+    color: #212529;
+    pointer-events: none;
+    opacity: unset;
+}
+
+.btn-danger {
+    float: left;
+    margin-right: 10px;
+    border: 1px solid black;
+}
+
+.btn-warning {
+    float: left;
+    background-color: midnightblue;
+    color: white;
+    border: 1px solid black;
+    margin-right: 10px;
+}
+
+    .btn-warning:hover {
+        background-color: darkblue;
+        color: white;
+        border: 1px solid black;
+    }
+
+/*    Run Time Parameters Section    */
+
+.runTimeParametersButtons {
+    display: inline-block;
+    width: 100%;
+}
+
+.runTimeFields {
+    background-color: white;
+    width: auto;
+    outline-style: solid;
+    outline-width: thin;
+    outline-color: black;
+    padding-left: 5px;
+    font-size: 1vw;
+}
+
+.runTimeParametersForm {
+    display: inline-block;
+    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 10px;
+    background-color: #ecf2f9;
+    padding-top: 1%;
+    padding-bottom: .5%;
+    padding-left: 1%;
+    padding-right: 1%;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 3px 10px 10px 0 rgba(32, 33, 36, .75);
+    font-size: 14px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+.newRunTimeParametersForm {
+    display: inline-block;
+    width: 100%;
+    margin-right: 2%;
+    margin-bottom: 10%;
+    background-color: #ecf2f9;
+    padding-top: 1%;
+    padding-bottom: .5%;
+    padding-right: 1%;
+    padding-left: 1%;
+    border: 1px solid black;
+    border-radius: 0.5rem;
+    box-shadow: 3px 5px 5px 0 rgba(32, 33, 36, .75);
+    font-size: 14px;
+    overflow-x: auto;
+    overflow-y: auto;
+}
+
+#runTimeLabel {
+    margin-left: 40px;
+}
+
+.checkbox-grid li {
+    display: block;
+    float: left;
+    width: 16%;
+    margin-left: 0;
+    margin-right: 0;
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.checkbox-grid2 li {
+    display: block;
+    float: left;
+    width: 20%;
+    margin: 0 0 0 0;
+}
+
+.checkbox-grid3 li {
+    display: block;
+    float: left;
+    width: 8%;
+    margin: 0 0 0 0;
+}
+
+.checkbox-grid4 li {
+    display: block;
+    float: left;
+    width: 6.5%;
+    margin: 0 0 0 0;
+}
+
+.checkbox-grid5 li {
+    float: left;
+    width: 3.3%;
+    margin: 0 0 0 0;
+}
+
+.newMonth {
+    width: 50em;
+}
+
+.newMonthCheckboxes {
+    width: 25em;
+    float: left;
+    margin-bottom: 15px;
+    white-space: nowrap;
+}
+
+.newDay {
+    width: 20em;
+    float: left;
+    margin-bottom: 15px;
+    margin-right: 20px;
+}
+
+.newDayCheckboxes {
+    width: 20em;
+    float: left;
+    white-space: nowrap;
+    margin-left: 20px;
+}
+
+.newHourCheckboxes {
+    width: 38em;
+    float: left;
+    white-space: nowrap;
+    margin-bottom: 15px;
+    margin-left: 20px;
+}
+
+.newMinute {
+    width: 90em;
+    float: left;
+    margin-bottom: 15px;
+    white-space: nowrap;
+}
+
+.month {
+    width: 50em;
+}
+
+.monthCheckboxes {
+    width: 25em;
+    float: left;
+    margin-bottom: 15px;
+    white-space: nowrap;
+}
+
+.day {
+    width: 50em;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.dayCheckboxes {
+    width: 25em;
+    float: left;
+    white-space: nowrap;
+}
+
+.hour {
+    width: 50em;
+    float: left;
+    margin-bottom: 15px;
+}
+
+.hourCheckboxes {
+    width: 37.5em;
+    float: left;
+    white-space: nowrap;
+}
+
+.minute {
+    width: 50em;
+    float: left;
+    margin-bottom: 7px;
+    white-space: nowrap;
+}
+
+
+
+/*   LEFT SPLIT   */
+
+.first {
+    float: left;
+    width: 50%;
+}
+
+.notifyParametersForm {
+    display: inline-block;
+    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: #ecf2f9;
+    padding-top: 1%;
+    padding-bottom: 2%;
+    padding-right: 2%;
+    padding-left: 2%;
+    box-shadow: 3px 10px 10px 0 rgba(32, 33, 36, .75);
+    border: 1px solid black;
+    border-radius: 0.5rem;
+}
+
+#issueDesc {
+    width: 100%;
+    float: left;
+    margin-bottom: 2%;
+}
+
+.sendMSTeams {
+    width: 25%;
+    float: left;
+}
+
+.msTeamsChannel {
+    width: 25%;
+    margin-left: 5%;
+    float: left;
+}
+
+.msTeamsUrl {
+    width: 100%;
+    float: left;
+}
+
+.msTeamsUrlTextBox {
+    width: auto;
+    background-color: lightgray;
+    outline-style: solid;
+    outline-width: thin;
+    outline-color: black;
+    padding-left: 5px;
+}
+
+.sendMail {
+    width: 15%;
+    float: left;
+}
+
+.mailFrom {
+    width: 35%;
+    float: left;
+}
+
+.mailFromText {
+    width: auto;
+    background-color: lightgray;
+    outline-style: solid;
+    outline-width: thin;
+    outline-color: black;
+    padding-left: 5px;
+}
+
+.mailTo {
+    width: 25%;
+    float: left;
+    margin-left: 6%;
+}
+
+.subject {
+    width: 100%;
+    float: left;
+}
+
+#sendMSTeamsSelect {
+    padding-right: 40px;
+}
+
+#sendMailSelect {
+    padding-right: 40px;
+}
+
+#from {
+    width: 18em;
+}
+
+#to {
+    width: 18em;
+}
+
+#subject {
+    width: 100%;
+}
+
+/*   RIGHT SPLIT   */
+
+.second {
+    width: 50%;
+    float: left;
+    padding-left: 25px;
+}
+
+.newDbParametersForm {
+    display: inline-block;
+    width: 100%;
+    margin-right: 20px;
+    margin-bottom: 20px;
+    background-color: #ecf2f9;
+    padding-top: 2%;
+    padding-bottom: 2.5%;
+    padding-right: 2%;
+    padding-left: 2%;
+    box-shadow: 3px 10px 10px 0 rgba(32, 33, 36, .75);
+    border: 1px solid black;
+    border-radius: 0.5rem;
+}
+
+.dbSchema {
+    display: block;
+    float: left;
+    width: 15%;
+    margin-right: 2%;
+}
+
+.status {
+    display: block;
+    float: left;
+    width: 10%;
+    margin-left: 2%;
+}
+
+.validateButton {
+    float: left;
+    width: 75%;
+    margin-bottom: 1%;
+}
+
+#right {
+    position: absolute;
+    right: 3%;
+}
+
+#dbSchemaSelect {
+    padding-right: 15px;
+    margin-right: 10px;
+    float: left;
+}
+
+#statusSelect {
+    padding-right: 8px;
+    margin-right: 2em;
+    float: left;
+}
+
+.sqlStatement {
+    float: left;
+    width: 100%;
+    padding-top: 2%;
+}
+
+#sqlStateLabel {
+    float: left;
+}
+
+#sqlState {
+    float: left;
+    padding-bottom: 46%;
+    width: 100%;
+}
+
+/*   Footer    */
+
+.content-footer {
+    text-align: center;
+    margin-top: -180px;
+    font-size: smaller;
+    position: relative;
+    clear: both;
+    bottom: 0;
+    width: 100%;
+    color: white;
+}
+
+/*   Modal Styling    */
+
+.bm-container {
+    display: none;
+    justify-content: center;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 100;
+}
+
+.bm-overlay {
+    display: block;
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    z-index: 101;
+    background-color: rgba(0,0,0,0.5);
+}
+
+.bm-active {
+    display: flex;
+}
+
+.blazor-modal {
+    display: flex;
+    flex-direction: column;
+    width: 50rem;
+    height: 75%;
+    background-color: whitesmoke;
+    border-radius: 4px;
+    border: 1px solid #fff;
+    padding: 1.5rem;
+    z-index: 102;
+    box-shadow: 0 2px 2px rgba(0,0,0,.25);
+    overflow: auto;
+}
+
+.bm-header {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 0 2rem 0;
+}
+
+.bm-title {
+    margin-bottom: 0;
+}
+
+.bm-close {
+    padding: 1rem;
+    margin: -1rem -1rem -1rem auto;
+    background-color: transparent;
+    border: 0;
+    -webkit-appearance: none;
+    cursor: pointer;
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+/*    Service Manager    */
+
+.serviceLabel {
+    margin-bottom: 10px;
+}
+
+.serviceManagerButtons {
+    display: inline-block;
+    width: 100%;
+}
+
+.datePickers {
+    width: 100%;
+}
+
+.datePicker {
+    outline-style: none;
+    padding-left: 0;
+}
+
+.datePicker1 {
+    float: left;
+}
+
+.datePicker2 {
+    float: left;
+    margin-left: 10px;
+}
+
+.jobSelectFields {
+    height: 25em;
+    width: 100%;
+    overflow-x: auto;
+    overflow-y: auto;
+    white-space: nowrap;
+}

@@ -1,0 +1,228 @@
+﻿@page "/CreateNewJob"
+
+@if (newJob != null)
+{
+    <EditForm Model="@newJob">
+        <DataAnnotationsValidator />
+        <label class="indexLabel"><strong>Create New Job</strong></label>
+        <div class="jobCreateForm">
+            <ValidationMessage For="@(() => newJob.JobName)" />
+            <InputText id="jobCreate" @bind-Value="newJob.JobName" placeholder="Job Name" />
+            <button type="submit" class="btn btn-danger" @onclick="AddNewJob">Save</button>
+            <button type="button" class="btn btn-primary" @onclick="BackToIndex">Exit</button>
+        </div>
+        <label class="indexLabel"><strong>Run Time Parameters</strong></label>
+        <div class="runTimeParametersForm">
+            <div class="newMonth">
+                <div class="newMonthCheckboxes">
+                    <label id="runTimeLabel"><strong>Month</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="InitializeFormData.Months[0].IsMonthChecked"
+                                               @onclick="() => init.CheckAllMonths(InitializeFormData.Months[0])" />
+                                @InitializeFormData.Months[0].MonthName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (var i = 1; i < InitializeFormData.Months.Count(); i++)
+                        {
+                            var j = i;
+                            <ul class="checkbox-grid">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="InitializeFormData.Months[j].IsMonthChecked"
+                                                       @onclick="() => init.CheckManualMonth(InitializeFormData.Months[j])" />
+                                        @InitializeFormData.Months[j].MonthName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="newDay">
+                <div class="newDayCheckboxes">
+                    <label id="runTimeLabel"><strong>Day</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="InitializeFormData.Days[0].IsDayChecked"
+                                               @onclick="() => init.CheckAllDays(InitializeFormData.Days[0])" />
+                                @InitializeFormData.Days[0].DayName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (int i = 1; i < InitializeFormData.Days.Count(); i++)
+                        {
+                            int j = i;
+                            <ul class="checkbox-grid2">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="@InitializeFormData.Days[j].IsDayChecked"
+                                                       @onclick="() => init.CheckManualDay(InitializeFormData.Days[j])" />
+                                        @InitializeFormData.Days[j].DayName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="newHour">
+                <div class="newHourCheckboxes">
+                    <label id="runTimeLabel"><strong>Hour</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="@InitializeFormData.Hours[24].IsHourChecked"
+                                               @onclick="() => init.CheckAllHours(InitializeFormData.Hours[24])" />
+                                @InitializeFormData.Hours[24].HourName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (int i = 0; i < 24; i++)
+                        {
+                            int j = i;
+                            <ul class="checkbox-grid3">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="@InitializeFormData.Hours[j].IsHourChecked"
+                                                       @onclick="() => init.CheckManualHour(InitializeFormData.Hours[j])" />
+                                        @InitializeFormData.Hours[j].HourName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="newMinute">
+                <label id="runTimeLabel"><strong>Minute</strong></label>
+                <ul>
+                    <li>
+                        <label>
+                            <InputCheckbox @bind-Value="@InitializeFormData.Minutes[60].IsMinuteChecked"
+                                           @onclick="() => init.CheckAllMinutes(InitializeFormData.Minutes[60])" />
+                            @InitializeFormData.Minutes[60].MinuteName
+                        </label>
+                    </li>
+                </ul>
+                @{
+                    for (int i = 0; i < 60; i++)
+                    {
+                        int j = i;
+                        <ul class="checkbox-grid5">
+                            <li>
+                                <label>
+                                    <InputCheckbox @bind-Value="@InitializeFormData.Minutes[j].IsMinuteChecked"
+                                                   @onclick="() => init.CheckManualMinute(InitializeFormData.Minutes[j])" />
+                                    @InitializeFormData.Minutes[j].MinuteName
+                                </label>
+                            </li>
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+        <div class="first">
+            <label class="indexLabel"><strong>Notify Parameters</strong></label>
+            <div class="notifyParametersForm">
+                <div class="issueDescription">
+                    <label><strong>Issue Description</strong></label>
+                    <InputText id="issueDesc" @bind-Value="newJob.IssueDescription" placeholder="Enter New Issue Description" />
+                    <ValidationMessage For="@(() => newJob.IssueDescription)" />
+                </div>
+                <div class="sendMSTeams">
+                    <label><strong>Send MS Teams</strong></label>
+                    <InputSelect id="sendMSTeamsSelect" @bind-Value="newJob.SendMSTeams">
+                        @foreach (var items in InitializeFormData.SendTeams)
+                            {
+                            <option value="@items.SendMSTeamsName">@items.SendMSTeamsName</option>
+                            }
+                    </InputSelect>
+                </div>
+                <div class="msTeamsChannel">
+                    <label><strong>MS Teams Channel</strong></label>
+                    <InputSelect id="sendMSTeamsChannel" @bind-Value="newJob.MSTeamsChannel">
+                        @foreach (var items in InitializeFormData.MSTeamsChannels)
+                            {
+                            <option value="@items.MSTeamsChannelName">@items.MSTeamsChannelName</option>
+                            }
+                    </InputSelect>
+                </div>
+                <div class="msTeamsUrl">
+                    <label><strong>MS Teams URL</strong></label>
+                    @{
+                        switch (newJob.MSTeamsChannel)
+                        {
+                            case "#alerts": //TODO: Change to "HSN Alerts"
+                                newJob.MSTeamsUrl = MSTeamsEndpoints.HSNAlerts;
+                                break;
+                        }
+                    }
+                    <div class="msTeamsUrlTextBox">
+                        <p id="slackUrl">@newJob.MSTeamsUrl</p>
+                    </div>
+                </div>
+                <div class="sendMail">
+                    <label><strong>Send Mail</strong></label>
+                    <InputSelect id="sendMailSelect" @bind-Value="newJob.SendMail">
+                        @foreach (var items in InitializeFormData.SendMails)
+                            {
+                            <option value="@items.SendMailName">@items.SendMailName</option>
+                            }
+                    </InputSelect>
+                </div>
+                <div class="mailFrom">
+                    <label><strong>From:</strong></label>
+                    <div class="mailFromText">
+                        <p id="from">@newJob.MailFrom</p>
+                    </div>
+                </div>
+                <div class="mailTo">
+                    <label><strong>To:</strong></label>
+                    <InputText id="to" @bind-Value="newJob.MailTo" placeholder="Enter New Mail To" />
+                    <ValidationMessage For="@(() => newJob.MailTo)" />
+                </div>
+                <div class="subject">
+                    <label id="subjectLabel"><strong>Subject:</strong></label>
+                    <InputText id="subject" @bind-Value="newJob.EmailSubject" placeholder="Enter New Subject" />
+                </div>
+            </div>
+        </div>
+        <div class="second">
+            <label class="indexLabel"><strong>DB Parameters</strong></label>
+            <div class="newDbParametersForm">
+                <div class="dbSchema">
+                    <label id="dbSchemaLabel"><strong>DB Schema</strong></label>
+                    <InputSelect id="dbSchemaSelect" @bind-Value="newJob.DbSchema">
+                        @foreach (var items in InitializeFormData.DbSchemas)
+                            {
+                            <option value="@items.DbSchemaName">@items.DbSchemaName</option>
+                            }
+                    </InputSelect>
+                </div>
+                <div class="status">
+                    <label id="statusLabel"><strong>Status</strong></label>
+                    <InputSelect id="statusSelect" @bind-Value="newJob.Status">
+                        @foreach (var items in InitializeFormData.Statuses)
+                            {
+                            <option value="@items.StatusName">@items.StatusName</option>
+                            }
+                    </InputSelect>
+                </div>
+                <div class="validateButton">
+                    <button type="button" class="btn btn-primary" id="right" @onclick="() => ValidateSql(newJob.SqlString)">Validate</button>
+                </div>
+                <div class="sqlStatement">
+                    <label id="sqlStateLabel"><strong>Sql Statement &nbsp;&nbsp;<font color="red">(Don't end statement with a semi colon)</font></strong></label>
+                    <InputTextArea id="sqlState" @bind-Value="newJob.SqlString" placeholder="Enter New Sql Statement" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}

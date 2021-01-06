@@ -1,0 +1,133 @@
+﻿@page "/RunTimeParameters"
+
+@if (results != null)
+{
+    <EditForm Model="@results">
+        <label><strong>Edit Run Time Parameters for Current Job:</strong></label>
+        <div class="currentJob">
+            <p class="jobNameTitle"><strong>@results.JobName</strong></p>
+        </div>
+        <div class="runTimeParametersButtons">
+            <button type="button" class="btn btn-danger" @onclick="SaveChanges">Save Changes</button>
+            <button type="button" class="btn btn-primary" @onclick="ResetParams">Reset Parameters</button>
+            <button type="button" class="btn btn-primary" @onclick="Cancel">Exit</button>
+        </div>
+        <label><strong>Run Time Parameters</strong></label>
+        <div class="newRunTimeParametersForm">
+            <div class="month">
+                <div class="monthCheckboxes">
+                    <label id="runTimeLabel"><strong>Month</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="InitializeFormData.Months[0].IsMonthChecked"
+                                               @onclick="() => init.CheckAllMonths(InitializeFormData.Months[0])" />
+                                @InitializeFormData.Months[0].MonthName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (var i = 1; i < InitializeFormData.Months.Count(); i++)
+                        {
+                            var j = i;
+                            <ul class="checkbox-grid">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="InitializeFormData.Months[j].IsMonthChecked"
+                                                       @onclick="() => init.CheckManualMonth(InitializeFormData.Months[j])" />
+                                        @InitializeFormData.Months[j].MonthName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="day">
+                <div class="dayCheckboxes">
+                    <label id="runTimeLabel"><strong>Day</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="InitializeFormData.Days[0].IsDayChecked"
+                                               @onclick="() => init.CheckAllDays(InitializeFormData.Days[0])" />
+                                @InitializeFormData.Days[0].DayName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (int i = 1; i < InitializeFormData.Days.Count(); i++)
+                        {
+                            int j = i;
+                            <ul class="checkbox-grid2">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="@InitializeFormData.Days[j].IsDayChecked"
+                                                       @onclick="() => init.CheckManualDay(InitializeFormData.Days[j])" />
+                                        @InitializeFormData.Days[j].DayName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="hour">
+                <div class="hourCheckboxes">
+                    <label id="runTimeLabel"><strong>Hour</strong></label>
+                    <ul>
+                        <li>
+                            <label>
+                                <InputCheckbox @bind-Value="@InitializeFormData.Hours[24].IsHourChecked"
+                                               @onclick="() => init.CheckAllHours(InitializeFormData.Hours[24])" />
+                                @InitializeFormData.Hours[24].HourName
+                            </label>
+                        </li>
+                    </ul>
+                    @{
+                        for (int i = 0; i < 24; i++)
+                        {
+                            int j = i;
+                            <ul class="checkbox-grid3">
+                                <li>
+                                    <label>
+                                        <InputCheckbox @bind-Value="@InitializeFormData.Hours[j].IsHourChecked"
+                                                       @onclick="() => init.CheckManualHour(InitializeFormData.Hours[j])" />
+                                        @InitializeFormData.Hours[j].HourName
+                                    </label>
+                                </li>
+                            </ul>
+                        }
+                    }
+                </div>
+            </div>
+            <div class="minute">
+                <label id="runTimeLabel"><strong>Minute</strong></label>
+                <ul>
+                    <li>
+                        <label>
+                            <InputCheckbox @bind-Value="@InitializeFormData.Minutes[60].IsMinuteChecked"
+                                           @onclick="() => init.CheckAllMinutes(InitializeFormData.Minutes[60])" />
+                            @InitializeFormData.Minutes[60].MinuteName
+                        </label>
+                    </li>
+                </ul>
+                @{
+                    for (int i = 0; i < 60; i++)
+                    {
+                        int j = i;
+                        <ul class="checkbox-grid4">
+                            <li>
+                                <label>
+                                    <InputCheckbox @bind-Value="@InitializeFormData.Minutes[j].IsMinuteChecked"
+                                                   @onclick="() => init.CheckManualMinute(InitializeFormData.Minutes[j])" />
+                                    @InitializeFormData.Minutes[j].MinuteName
+                                </label>
+                            </li>
+                        </ul>
+                    }
+                }
+            </div>
+        </div>
+    </EditForm>
+}

@@ -1,0 +1,53 @@
+﻿@page "/ServiceManager"
+
+@if (results != null)
+{
+    <EditForm Model="@results">
+        <div class="serviceMessage">
+            <label class="serviceLabel"><font color=@FontColor>@Message</font></label>
+        </div>
+        <div class="serviceManagerButtons">
+            <button type="button" class="btn btn-primary" @onclick="SetService">Set</button>
+            <button type="button" class="btn btn-danger" @onclick="SaveChanges" disabled="@IsDisabled">Save</button>
+            <button type="button" class="btn btn-warning" @onclick="ClearDownTimes" disabled="@IsDisabled">Clear Downtimes</button>
+            <button type="button" class="btn btn-primary" @onclick="Exit">Exit</button>
+        </div>
+        <div class="datePickers">
+            <div class="datePicker1">
+                <p class="datePicker">
+                    <input type="datetime-local" @bind-value="@StartDate"/>
+                </p>
+                <span class="datePickerResults"><strong>Start: @(StartDate.HasValue ? StartDate.Value.ToLocalTime().ToString() : "")</strong></span>
+            </div>
+            <div class="datePicker2">
+                <p class="datePicker">
+                    <input type="datetime-local" @bind-value="@EndDate"/>
+                </p>
+                <span class="datePickerResults"><strong>End: @(EndDate.HasValue ? EndDate.Value.ToLocalTime().ToString() : "")</strong></span>
+            </div>
+        </div>
+        <div class="jobSelectFields">
+            <table class="table">
+                <tr>
+                    <th></th>
+                    <th><button type="button" class="btn btn-warning" @onclick="SelectAll">@SelectMessage</button></th>
+                    <th>Scheduled Downtimes</th>
+                </tr>
+                @foreach (var item in results)
+                {
+                    <tr>
+                        <td>
+                            <InputCheckbox @bind-Value=item.IsJobSelected @onclick="() => JobChecked(item.JobId)" />
+                        </td>
+                        <td>
+                            @item.JobName
+                        </td>
+                        <td>
+                            @item.ScheduledDownTime
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
+    </EditForm>
+}

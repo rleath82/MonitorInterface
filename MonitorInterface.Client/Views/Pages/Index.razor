@@ -1,0 +1,136 @@
+﻿@page "/"
+@using MonitorInterface.Client.Constants
+
+<Modal ItemsChanged="GetFormData"/>
+
+@if (result != null)
+{
+    <EditForm Model="@result">
+        <DataAnnotationsValidator />
+        <label class="indexLabel"><strong>Select a job to view its current parameters</strong></label>
+        <div class="currentJobList">
+            <select @onchange="JobIdChanged" id="jobSelect">
+                @foreach (var job in jobs)
+                {
+                    <option selected="@(JobId == job.JobId)" value="@job.JobId">@job.JobName</option>
+                }
+            </select>
+            <button type="button" class="btn btn-primary" @onclick="ShowServiceManager">Manage</button>
+            <button type="button" class="btn btn-primary" @onclick="AddNewJob">Add New Job</button>
+            <button type="button" class="btn btn-warning" @onclick="SaveChanges" disabled="@IsDisabled">Save</button>
+            <button type="button" class="btn btn-warning" @onclick="DeleteJob" disabled="@IsDisabled">Delete Job</button>
+            <button type="button" class="btn btn-warning" @onclick="GetFormData">Refresh</button>
+            <button type="button" class="btn btn-danger" @onclick="Override">Override</button>
+        </div>
+        <label class="indexLabel"><strong>Run Time Parameters</strong></label>
+        <div class="runTimeParametersForm">
+            <div class="runtimeParams">
+                <p class="runTimeFields"><strong>Months: </strong>@result.Month</p>
+                <p class="runTimeFields"><strong>Days: </strong>@result.Day</p>
+                <p class="runTimeFields"><strong>Hours: </strong>@result.Hour</p>
+                <p class="runTimeFields"><strong>Minutes: </strong>@result.Minute</p>
+                <button type="button" @onclick="ShowRunTimeParameters" class="btn btn-warning">Edit Run Time Parameters</button>
+            </div>
+        </div>
+        <div class="first">
+            <label class="indexLabel"><strong>Notify Parameters</strong></label>
+            <div class="notifyParametersForm">
+                <div class="issueDescription">
+                    <label><strong>Issue Description</strong></label>
+                    <InputText id="issueDesc" @bind-Value="result.IssueDescription" placeholder="Enter New Issue Description" />
+                    <ValidationMessage For="@(() => result.IssueDescription)" />
+                </div>
+                <div class="sendMSTeams">
+                    <label><strong>Send MS Teams</strong></label>
+                    <InputSelect id="sendMSTeamsSelect" @bind-Value="result.SendMSTeams">
+                        @foreach (var items in InitializeFormData.SendTeams)
+                        {
+                            <option value="@items.SendMSTeamsName">@items.SendMSTeamsName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="msTeamsChannel">
+                    <label><strong>MS Teams Channel</strong></label>
+                    <InputSelect id="sendMSTeamsChannel" @bind-Value="result.MSTeamsChannel">
+                        @foreach (var items in InitializeFormData.MSTeamsChannels)
+                        {
+                            <option value="@items.MSTeamsChannelName">@items.MSTeamsChannelName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="msTeamsUrl">
+                    <label><strong>MS Teams URL</strong></label>
+                    @{
+                        switch (result.MSTeamsChannel)
+                        {
+                            case "#alerts":
+                                result.MSTeamsUrl = MSTeamsEndpoints.HSNAlerts;
+                                break;
+                        }
+                    }
+                    <div class="msTeamsUrlTextBox">
+                        <p id="msTeamsUrl">@result.MSTeamsUrl</p>
+                    </div>
+                </div>
+                <div class="sendMail">
+                    <label><strong>Send Mail</strong></label>
+                    <InputSelect id="sendMailSelect" @bind-Value="result.SendMail">
+                        @foreach (var items in InitializeFormData.SendMails)
+                        {
+                            <option value="@items.SendMailName">@items.SendMailName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="mailFrom">
+                    <label><strong>From:</strong></label>
+                    <div class="mailFromText">
+                        <p id="from">@result.MailFrom</p>
+                    </div>
+                </div>
+                <div class="mailTo">
+                    <label><strong>To:</strong></label>
+                    <InputText id="to" @bind-Value="result.MailTo" placeholder="Enter New Mail To" />
+                    <ValidationMessage For="@(() => result.MailTo)" />
+                </div>
+                <div class="subject">
+                    <label id="subjectLabel"><strong>Subject:</strong></label>
+                    <InputText id="subject" @bind-Value="result.EmailSubject" placeholder="Enter New Subject" />
+                </div>
+            </div>
+        </div>
+        <div class="second">
+            <label class="indexLabel"><strong>DB Parameters</strong></label>
+            <div class="newDbParametersForm">
+                <div class="dbSchema">
+                    <label id="dbSchemaLabel"><strong>DB Schema</strong></label>
+                    <InputSelect id="dbSchemaSelect" @bind-Value="result.DbSchema">
+                        @foreach (var items in InitializeFormData.DbSchemas)
+                        {
+                            <option value="@items.DbSchemaName">@items.DbSchemaName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="status">
+                    <label id="statusLabel"><strong>Status</strong></label>
+                    <InputSelect id="statusSelect" @bind-Value="result.Status">
+                        @foreach (var items in InitializeFormData.Statuses)
+                        {
+                            <option value="@items.StatusName">@items.StatusName</option>
+                        }
+                    </InputSelect>
+                </div>
+                <div class="validateButton">
+                    <button type="button" class="btn btn-primary" id="right" @onclick="() => ValidateSql(result.SqlString)">Validate</button>
+                </div>
+                <div class="sqlStatement">
+                    <label id="sqlStateLabel"><strong>Sql Statement &nbsp;&nbsp;<font color="red">(Don't end statement with a semi colon)</font></strong></label>
+                    <InputTextArea id="sqlState" @bind-Value="result.SqlString" placeholder="Enter new Sql statement" />
+                </div>
+            </div>
+        </div>
+    </EditForm>
+}
+else
+{     
+    <MatProgressCircle Indeterminate="true" Size="MatProgressCircleSize.Large" />       
+}
